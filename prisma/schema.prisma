@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  fulfilled
+  shipped
+  awaiting_shipment
+}
+
+enum TshirtMaterial {
+  cotton
+  linen
+  silk
+}
+
+enum TshirtSize {
+  s
+  m
+  l
+  xl
+  xxl
+}
+
+enum TshirtColor {
+  black
+  brown
+  green
+}
+
+model Configuration {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  width           Int
+  height          Int
+  imageUrl        String
+  material        TshirtMaterial?
+  size            TshirtSize?
+  color           TshirtColor?
+  croppedImageUrl String?
+  Order           Order[]
+}
+
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String?
+  email    String? @unique
+  password String?
+  Order    Order[]
+}
+
+model Order {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  configuration   Configuration @relation(fields: [configurationId], references: [id])
+  configurationId String        @db.ObjectId
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String        @db.ObjectId
+  amount          Float
+  isPaid          Boolean       @default(false)
+  status          OrderStatus   @default(awaiting_shipment)
+
+  ShippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId String?          @db.ObjectId
+  BillingAddress    BillingAddress?  @relation(fields: [billingAddressId], references: [id])
+  billingAddressId  String?          @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updated   DateTime @updatedAt
+}
+
+model ShippingAddress {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  street      String
+  city        String
+  postalCode  String
+  country     String
+  state       String?
+  phoneNumber String?
+  orders      Order[]
+}
+
+model BillingAddress {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  street      String
+  city        String
+  postalCode  String
+  country     String
+  state       String?
+  phoneNumber String?
+  orders      Order[]
+}
