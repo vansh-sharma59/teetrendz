@@ -1,8 +1,10 @@
+"use client";
 import Banner from "@/components/Banner";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Testimonials from "@/components/Testimonials";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { useEffect } from "react";
 
 // import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
@@ -11,6 +13,13 @@ export default function Home() {
   // const user = await getUser();
   // const authenticated = await isAuthenticated();
   // console.log("this is kinde user",user)
+  useEffect(() => {
+    (async () => {
+      const LocomotiveScroll = (await import("locomotive-scroll")).default;
+      const locomotiveScroll = new LocomotiveScroll();
+    })();
+  }, []);
+
   return (
     <div className="bg-slate-50">
       <section>
