@@ -5,6 +5,10 @@ import Testimonials from "@/components/Testimonials";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import { useEffect } from "react";
+import Marqee from "@/components/Marqee";
+import MarqueeTwo from "@/components/MarqeeTwo";
+import Eyes from "@/components/Eyes";
+import Commitment from "@/components/Commitment";
 
 // import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
@@ -76,10 +80,28 @@ export default function Home() {
         </MaxWidthWrapper>
       </section>
 
+      <section>
+        <Marqee />
+      </section>
+
+      <section className="hidden py-20 lg:block">
+        <Eyes />
+      </section>
+
       <section className="bg-slate-100 py-20">
         <MaxWidthWrapper>
           <Testimonials />
         </MaxWidthWrapper>
+      </section>
+
+      <section className="py-20 bg-slate-50">
+        <MaxWidthWrapper>
+          <Commitment />
+        </MaxWidthWrapper>
+      </section>
+
+      <section>
+        <MarqueeTwo />
       </section>
 
       <section className="py-20 bg-slate-50">
